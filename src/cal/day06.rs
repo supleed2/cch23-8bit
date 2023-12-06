@@ -1,4 +1,4 @@
-use axum::{extract::Json, routing::post, Router};
+use axum::{routing::post, Json, Router};
 
 pub(crate) fn router() -> Router {
     Router::new().route("/6", post(count_elf))

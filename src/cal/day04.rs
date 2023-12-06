@@ -1,4 +1,4 @@
-use axum::{extract::Json, response::IntoResponse, routing::post, Router};
+use axum::{response::IntoResponse, routing::post, Json, Router};
 
 pub(crate) fn router() -> Router {
     Router::new()
