@@ -25,14 +25,14 @@ async fn decode(
 
 #[derive(serde::Deserialize)]
 struct Bake {
-    recipe: HashMap<String, i32>,
-    pantry: HashMap<String, i32>,
+    recipe: HashMap<String, i64>,
+    pantry: HashMap<String, i64>,
 }
 
 #[derive(serde::Serialize)]
 struct Cookies {
-    cookies: i32,
-    pantry: HashMap<String, i32>,
+    cookies: i64,
+    pantry: HashMap<String, i64>,
 }
 
 async fn bake(
@@ -44,8 +44,12 @@ async fn bake(
     let decoded = general_purpose::STANDARD
         .decode(recipe)
         .map_err(|e| (StatusCode::BAD_REQUEST, format!("{e:?}")))?;
-    let Bake { recipe, mut pantry } = serde_json::from_slice(&decoded)
+    let Bake {
+        mut recipe,
+        mut pantry,
+    } = serde_json::from_slice(&decoded)
         .map_err(|e| (StatusCode::BAD_REQUEST, format!("{e:?}")))?;
+    recipe.retain(|_, v| v != &0);
     if let Some(cookies) = recipe
         .iter()
         .map(|(i, a)| pantry.get(i).map(|p| p / a))
