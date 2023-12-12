@@ -18,7 +18,7 @@ async fn red_pixels(mut multipart: Multipart) -> impl IntoResponse {
             .expect("Loading image should not fail")
             .into_rgb8()
             .pixels()
-            .filter(|&p| p.0[0] as u16 > p.0[1] as u16 + p.0[2] as u16)
+            .filter(|&p| u16::from(p.0[0]) > u16::from(p.0[1]) + u16::from(p.0[2]))
             .count()
             .to_string()
     } else {
