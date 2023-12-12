@@ -5,6 +5,7 @@ mod day06;
 mod day07;
 mod day08;
 mod day11;
+mod day12;
 
 pub(crate) fn router() -> axum::Router {
     axum::Router::new()
@@ -15,4 +16,5 @@ pub(crate) fn router() -> axum::Router {
         .nest("/", day07::router())
         .nest("/", day08::router())
         .nest("/", day11::router())
+        .nest("/", day12::router())
 }
