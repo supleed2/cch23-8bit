@@ -36,11 +36,11 @@ async fn reset(State(state): State<Day13State>) -> Result<StatusCode, StatusCode
         .await
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
     sqlx::query!(
-        "create table orders (
-            id INT PRIMARY KEY,
-            region_id INT,
-            gift_name VARCHAR(50),
-            quantity INT
+        "create table orders ( \
+            id INT PRIMARY KEY, \
+            region_id INT, \
+            gift_name VARCHAR(50), \
+            quantity INT \
         )"
     )
     .execute(&state.pool)
@@ -95,7 +95,7 @@ async fn popular(
     State(state): State<Day13State>,
 ) -> Result<impl IntoResponse, (StatusCode, String)> {
     let gifts = sqlx::query!(
-        "select sum(quantity) as \"sq!\", gift_name as \"gift_name!\"
+        "select sum(quantity) as \"sq!\", gift_name as \"gift_name!\" \
         from orders group by gift_name order by \"sq!\" desc"
     )
     .fetch_all(&state.pool)

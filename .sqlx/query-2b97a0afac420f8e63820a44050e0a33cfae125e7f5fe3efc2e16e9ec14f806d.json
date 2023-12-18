@@ -1,0 +1,12 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "create table orders ( id INT PRIMARY KEY, region_id INT, gift_name VARCHAR(50), quantity INT )",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": []
+  },
+  "hash": "2b97a0afac420f8e63820a44050e0a33cfae125e7f5fe3efc2e16e9ec14f806d"
+}

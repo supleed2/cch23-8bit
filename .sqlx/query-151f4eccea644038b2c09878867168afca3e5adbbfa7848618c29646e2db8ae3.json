@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "select sum(quantity) as \"sq!\", gift_name as \"gift_name!\"\n        from orders group by gift_name order by \"sq!\" desc",
+  "query": "select sum(quantity) as \"sq!\", gift_name as \"gift_name!\" from orders group by gift_name order by \"sq!\" desc",
   "describe": {
     "columns": [
       {
@@ -22,5 +22,5 @@
       true
     ]
   },
-  "hash": "481edabd076d347adade420c156f8de4837e8724a405e7f2b482efe074d97202"
+  "hash": "151f4eccea644038b2c09878867168afca3e5adbbfa7848618c29646e2db8ae3"
 }
