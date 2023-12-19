@@ -125,43 +125,32 @@ async fn total(State(state): State<Day18State>) -> Result<impl IntoResponse, (St
 }
 
 #[derive(serde::Serialize)]
-struct TopGifts {
+struct TopList {
     region: String,
     top_gifts: Vec<String>,
 }
 
 async fn top_list(
-    Path(limit): Path<i64>,
+    Path(limit): Path<i32>,
     State(state): State<Day18State>,
-) -> Result<Json<Vec<TopGifts>>, (StatusCode, String)> {
-    let mut top_list = vec![];
-
-    let regions = sqlx::query_as!(
-        Region,
-        "select id, name as \"name!\" from regions order by name"
+) -> Result<Json<Vec<TopList>>, (StatusCode, String)> {
+    let top_lists = sqlx::query_as!(
+        TopList,
+        "select r.name as \"region!\", (array_remove(array_agg(o.g), null))[1:$1] as \"top_gifts!\" \
+        from regions as r \
+        left join lateral (\
+            select gift_name as g, region_id as r \
+            from orders \
+            group by r, g \
+            order by sum(quantity) desc, g) as o \
+        on r.id = o.r \
+        group by r.name \
+        order by r.name",
+        limit
     )
     .fetch_all(&state.pool)
     .await
     .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 
-    for region in regions {
-        let top_gifts = sqlx::query!(
-            "select gift_name as \"gift_name!\" from orders where region_id = $1 group by gift_name order by sum(quantity) desc limit $2",
-            region.id,
-            limit
-        )
-        .fetch_all(&state.pool)
-        .await
-        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?
-        .into_iter()
-        .map(|r| r.gift_name)
-        .collect();
-
-        top_list.push(TopGifts {
-            region: region.name,
-            top_gifts,
-        });
-    }
-
-    Ok(Json(top_list))
+    Ok(Json(top_lists))
 }

@@ -1,0 +1,26 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "select name as \"region!\", sum(quantity) as \"total!\"\n        from orders join regions on orders.region_id = regions.id\n        group by name order by name",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "region!",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 1,
+        "name": "total!",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      true,
+      null
+    ]
+  },
+  "hash": "1c9e1cc1e5326aca618ac1093c97eb9d50290537c93baa76a70285559b96e351"
+}

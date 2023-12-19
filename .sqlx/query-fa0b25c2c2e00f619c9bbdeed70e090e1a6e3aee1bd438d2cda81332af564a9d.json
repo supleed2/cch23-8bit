@@ -1,0 +1,28 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "select r.name as \"region!\", (array_remove(array_agg(o.g), null))[1:$1] as \"top_gifts!\" from regions as r left join lateral (select gift_name as g, region_id as r from orders group by r, g order by sum(quantity) desc, g) as o on r.id = o.r group by r.name order by r.name",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "region!",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 1,
+        "name": "top_gifts!",
+        "type_info": "VarcharArray"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4"
+      ]
+    },
+    "nullable": [
+      true,
+      null
+    ]
+  },
+  "hash": "fa0b25c2c2e00f619c9bbdeed70e090e1a6e3aee1bd438d2cda81332af564a9d"
+}
