@@ -11,6 +11,7 @@ mod day14;
 mod day15;
 mod day18;
 mod day19;
+mod day20;
 
 pub(crate) fn router(pool: sqlx::PgPool) -> axum::Router {
     axum::Router::new()
@@ -27,4 +28,5 @@ pub(crate) fn router(pool: sqlx::PgPool) -> axum::Router {
         .nest("/", day15::router())
         .nest("/", day18::router(pool))
         .nest("/", day19::router())
+        .nest("/", day20::router())
 }
