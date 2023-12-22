@@ -15,6 +15,8 @@ country-boundaries = "1.2.0"
 futures = "0.3.29"
 image = "0.24.7"
 isocountry = "0.3.2"
+multimap = { version = "0.9.1", default-features = false }
+pathfinding = "4.8.0"
 radians = "0.3.1"
 regex = "1.10.2"
 reqwest = { version = "0.11.22", features = ["json"] }
