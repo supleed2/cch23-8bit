@@ -7,17 +7,11 @@ pub(crate) fn router() -> Router {
 }
 
 async fn integers(nums: String) -> Result<impl IntoResponse, StatusCode> {
-    let mut nums = nums
-        .lines()
-        .map(|s| s.parse::<u64>().expect("All lines should be valid u64s"))
-        .collect::<Vec<_>>();
-    nums.sort_unstable();
-    for i in (0..nums.len()).step_by(2) {
-        if i == (nums.len() - 1) || nums[i] != nums[i + 1] {
-            return Ok("🎁".repeat(nums[i] as usize));
-        }
-    }
-    Err(StatusCode::BAD_REQUEST)
+    nums.lines()
+        .map(|s| s.parse::<u64>())
+        .try_fold(0u64, |acc, n| n.map(|n| acc ^ n))
+        .map(|n| "🎁".repeat(n as usize))
+        .map_err(|_| StatusCode::BAD_REQUEST)
 }
 
 async fn rocket(input: String) -> Result<impl IntoResponse, StatusCode> {
